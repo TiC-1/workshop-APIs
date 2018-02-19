@@ -1,16 +1,18 @@
-//
-// test("add function", function(assert) {
-//   var result = add(2, 3);
-//   var expected = 5;
-//   assert.equal(result, expected, "correctly adds two numbers");
-// });
+test("User name is Matteo Giaccone", function(assert) {
+  var username = document.getElementById("github-user-handle");
 
-var username = document.getElementById("github-user-handle");
+  function assertDomIsSetAfterAjax(){
+    assert.equal(username.textContent, "Matteo Giaccone", "Sets DOM user name via Ajax");
+  }
+  displayNameWithGithubInfo(assertDomIsSetAfterAjax);
 
-function testUserName() {
-  return test("User name is Matteo Giaccone", function(assert) {
-    assert.equal(username.textContent, "Matteo Giaccone", "Sets user name");
-  });
-};
+  function assertDomIsUpdated(){
+    assert.equal(username.textContent, "Tizio Caio", "DOM updates to Tizio Caio");
+  }
+  displayName(assertDomIsUpdated, "Tizio Caio");
 
-updateGithubUser(testUserName);
+  function assertGithubReturnsName(name){
+    assert.equal(name, "Matteo Giaccone", "Ajax call alone works");
+  }
+  getGithubInfo(assertGithubReturnsName);
+});

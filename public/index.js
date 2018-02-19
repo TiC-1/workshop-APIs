@@ -1,23 +1,26 @@
-/* let's go! */
-var updateGithubUser = function(cb) {
-  getGithubInfo(cb, updateDomGithubUser);
+function displayNameWithGithubInfo(cb) {
+  getGithubInfo(function(name) {
+    displayName(cb, name);
+  });
 }
 
-var getGithubInfo = function(cb, updateDom) {
+function getGithubInfo(cb) {
   var xhr = new XMLHttpRequest();
   var url = "https://api.github.com/users/matjack1";
   xhr.onreadystatechange = function() {
       if (xhr.readyState == 4 && xhr.status == 200) {
         var githubObj = JSON.parse(xhr.responseText);
-        updateDom(cb, githubObj);
+        cb(githubObj.name);
       }
   };
   xhr.open("GET", url, true);
   xhr.send();
 }
 
-var updateDomGithubUser = function(cb, obj){
+function displayName(cb, name){
   var username = document.getElementById("github-user-handle");
-  username.textContent = obj.name;
-  cb();
+  username.textContent = name;
+  if(typeof cb === "function") {
+    cb();
+  }
 }
